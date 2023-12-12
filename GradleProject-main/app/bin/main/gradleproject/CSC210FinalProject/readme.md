@@ -95,6 +95,15 @@ Progress:
 Questions:
  - Knowing the minumum distance from one node to another, how do you map a path for that distance using our dataset?
 
+DAY 8 - 12/12/23
+Eva
+7:00 PM - 9:00 PM, 10:30 PM - 12:00 AM
+Progress:
+ - Retooled Djikstra's Algorithm method
+   - Added comments with referenced psuedocode to help navigate through the method more easily
+   - Commented out second version of algorithm method
+   - Changed type for source parameter for DjikstraAlgorithm method
+   - Implemented remainder of method based on referred psuedocode; some errors remain preventing code from compiling
 
 Reflection:
 

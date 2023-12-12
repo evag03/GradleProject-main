@@ -77,7 +77,10 @@ public class ReadFile {
     return edgeSets;
   }
 
-  public static void DijkstraAlgorithm(MutableValueGraph<String, Integer> graph, String source, HashSet<String> listOfVertices) {
+  // turned source into an integer because it made more sense to me to have the starting node be an integer; it also fixed some errors later
+  // are we missing any parameters? I saw edgeSet in the 2nd version but assuming that got replaced by listOfVerticies?
+  // not sure why a 'Return type for the method is missing' error is popping up
+  public static DijkstraAlgorithm(MutableValueGraph<String, Integer> graph, int source, HashSet<String> listOfVertices) {
     //psuedocode from Wikipedia page:
     //  1  function Dijkstra(Graph, source):
     //  2 
@@ -106,16 +109,25 @@ public class ReadFile {
      boolean[] visited = new boolean[listOfVertices.size()];
      HashMap via = new HashMap<String, String>();
      //i think prev is just via.
-     //Does Q have to be a string array? removing u from Q will be hard as a result; can't we make it an Array List instead?
-     String[] Q = new String[listOfVertices.size()];
-
+     // Does Q have to be a string array? removing u from Q will be hard as a result; can't we make it an Array List instead?
+     // Update: turned it into an ArrayList
+     ArrayList[] Q = new ArrayList[listOfVertices.size()];
+     
+     //for each vertex v in Graph.Vertices:
      for (int v = 0; v < listOfVertices.size(); v++) {
+        // dist[v] ← INFINITY
         distance[v] = Integer.MAX_VALUE;
+        // prev[v] ← UNDEFINED
         via.put(v, "undefined");
-        Q[v] = listOfVertices.toArray()[v].toString();
+        // Commented out line below because it no longer works when Q is an ArrayList
+        // Q[v] = listOfVertices.toArray()[v].toString();
+        
+        // add v to Q
+        Q[listOfVertices.size()].add(v);
       }
-
+      // dist[source] ← 0
       distance[Arrays.asList(Q).indexOf(source)] = 0;
+      
       //is this necessary?
       // Q[Arrays.asList(Q).indexOf(u)] = null;
       // via[Arrays.asList(Q).indexOf(u)] = null;
@@ -123,45 +135,66 @@ public class ReadFile {
       // need to iterate (maybe using a hashmap?) through dataset to get paths and determine order of
       // nodes the shortest possible path goes through
       
-      //for (int u)
+      // Not touching this because I saw it was already commented out - Eva
+      // for (int u)
       
+      // while Q is not empty:
       while (Q != null && Q.length > 0) {
-        String u = source;
+        // u ← vertex in Q with min dist[u]
+        // is source equal to this ^^?
+        int u = source;
+        
         //remove u from Q; i don't think we need to initialize a new variable like w1
         //what we do need to do if it's an string array is copy to a new array if you want the length to reduce.
         //Alternatively, we initialize Q as an ArrayList if we want a dynamic size array
-        Q[v].remove(u);
+        Q[listOfVertices.size()].remove(u);
 
-        distance[Q.indexOf(u)];
+        // What was this supposed to do?
+        // distance[Q.indexOf(u)];
 
-        for (i = 0; )
-          Q[distance] = 
-          //if (new distance < old distance) {
-          //  via gets updated to = neighbor because neighbor is via
-          //  insert/modify location being looked at (key), via is the node that brought you there (where distance is)
+        // for each neighbor v of u still in Q:
+        for (int v = 0; v < listOfVertices.size(); v++) {
+          int alt = distance[u] + graph.edges(u, v);
+          
+          // What was this for?
+          //Q[distance] = 
 
+          // if alt < dist[v]:
+          if (alt < distance[v]) {
+
+          // via gets updated to = neighbor because neighbor is via
+          // insert/modify location being looked at (key), via is the node that brought you there (where distance is)
+          
+          // dist[v] ← alt
+            distance[v] = alt;
+          // prev[v] ← u
+            // Not sure how to fix this error
+            via = u;
           }
 
         
-        for (u = 0; u < Q.length; u++) {
-          // if (min(distance, 0, distance.length - 1) == distance[u]) {
-          //   break;
-          // }
-        }
-        System.out.println("u =  " + u);
+        // for (u = 0; u < Q.length; u++) {
+        //   // if (min(distance, 0, distance.length - 1) == distance[u]) {
+        //   //   break;
+        //   // }
+        // }
+        // System.out.println("u =  " + u);
 
-        String current = Q[u];
-        Q[u] = "null";
+        // String current = Q[u];
+        // Q[u] = "null";
 
-        //getEdgeSet()
+        // //getEdgeSet()
 
-        for (int v = 0; v < Q.length; v++) {
-          //if (graph.hasEdgeConnecting(u, v)) {
-            
-          //}
-        }
+        // for (int v = 0; v < Q.length; v++) {
+        //   //if (graph.hasEdgeConnecting(u, v)) {
+        //   //}
       }
+    }
 
+    // is it possible to write return statements like this?
+    // putting them in one line gave an error for via saying it couldn't be resolved
+    return distance;
+    return via;
   }
   
   // /**
@@ -351,7 +384,8 @@ public class ReadFile {
       MutableValueGraph<String,Integer> graph = ValueGraphBuilder.undirected().build();
       HashSet<String> listOfVertices = new HashSet<>();
       ArrayList<String[]> edgeSets = ReadFile.ReadInFile(graph, listOfVertices);
-      System.out.println(DijkstraAlgorithm(graph, "6", listOfVertices));
+      // Not sure how to fix this error
+      System.out.println(DijkstraAlgorithm(graph, 6, listOfVertices));
       printStatistics(listOfVertices, graph, edgeSets);
 
       
